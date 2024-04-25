@@ -141,12 +141,11 @@ class CustomImageDataset(Dataset):
     import glob
     import pandas as pd
     import PIL.Image as Image
-    images = glob.glob("/kaggle/input/echo-data/Extracted/*/*.png")
-    series = list(zip(images))
-    dataset = pd.DataFrame(series, columns=['image_path'])
 
     def __init__(self):
-        self.data = dataset
+        images = glob.glob("/kaggle/input/echo-data/Extracted/*/*.png")
+        series = list(zip(images))
+        self.data = pd.DataFrame(series, columns=['image_path'])
 
     def __len__(self):
         return len(self.data)
