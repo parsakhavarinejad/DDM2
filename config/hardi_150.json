@@ -13,14 +13,14 @@
     },
     "datasets": {
         "train": {
-            "name": "hardi",
-            "dataroot": null, // **UPDATE THIS TO THE PATH OF THE FILE** e.g. ".../data/HARDI150.nii.gz"
+            "name": "echo-data",
+            "dataroot": "/kaggle/input/echo-data/Extracted", // **UPDATE THIS TO THE PATH OF THE FILE** e.g. ".../data/HARDI150.nii.gz"
             "valid_mask": [10,160],
             "phase": "train",
             "padding": 3,
             "val_volume_idx": 40, // the volume to visualize for validation
             "val_slice_idx": 40, // the slice to visualize for validation
-            "batch_size": 32,
+            "batch_size": 8,
             "in_channel": 1,
             "num_workers": 0,
             "use_shuffle": true
@@ -76,8 +76,8 @@
             }
         },
         "diffusion": {
-            "image_size": 128,
-            "channels": 3, //sample channel
+            "image_size": 256,
+            "channels": 1, //sample channel
             "conditional": true // not used for DDM2
         }
     },
@@ -101,7 +101,7 @@
         "resume_state": null, // **UPDATE THIS TO THE PATH OF PHASE1 TRAINED NOISE MODEL** e.g. ".../experiments/sb_1_noisemodel/checkpoint/latest"
         "drop_rate": 0.0,
         "unet": {
-            "in_channel": 2,
+            "in_channel": 1,
             "out_channel": 1,
             "inner_channel": 32,
             "norm_groups": 32,
