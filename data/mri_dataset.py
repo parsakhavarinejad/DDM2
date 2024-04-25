@@ -135,27 +135,52 @@ class MRIDataset(Dataset):
         return ret
 
 
+
+
+class CustomImageDataset(Dataset):
+    images = glob.glob("/kaggle/input/echo-data/Extracted/*/*.png")
+    series = list(zip(images))
+    dataset = pd.DataFrame(series, columns=['image_path'])
+
+    def __init__(self):
+        self.data = dataset
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        image_path = self.data.iloc[idx]['image_path']
+
+        image = Image.open(image_path).convert(self.channel) 
+
+        if self.image_transform:
+            image = self.image_transform(image)
+
+        return image
+
+
 if __name__ == "__main__":
 
-    # hardi
-    valid_mask = np.zeros(160,)
-    valid_mask[10:] += 1
-    valid_mask = valid_mask.astype(np.bool8)
-    dataset = MRIDataset('.../HARDI150.nii.gz', valid_mask,
-                         phase='train', val_volume_idx=40, padding=3)
+    # # hardi
+    # valid_mask = np.zeros(160,)
+    # valid_mask[10:] += 1
+    # valid_mask = valid_mask.astype(np.bool8)
+    # dataset = MRIDataset('.../HARDI150.nii.gz', valid_mask,
+    #                      phase='train', val_volume_idx=40, padding=3)
     
+    dataset = CustomImageDataset()
     trainloader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, num_workers=0)
-    for i, data in enumerate(trainloader):
-        if i < 95 != 0:
-            continue
-        if i > 108:
-            break
-        img = data['X']
-        condition = data['condition']
-        img = img.numpy()
-        condition = condition.numpy()
+    # for i, data in enumerate(trainloader):
+    #     if i < 95 != 0:
+    #         continue
+    #     if i > 108:
+    #         break
+    #     img = data['X']
+    #     condition = data['condition']
+    #     img = img.numpy()
+    #     condition = condition.numpy()
 
-        vis = np.hstack((img[0].transpose(1,2,0), condition[0,[0]].transpose(1,2,0), condition[0,[1]].transpose(1,2,0)))
+    #     vis = np.hstack((img[0].transpose(1,2,0), condition[0,[0]].transpose(1,2,0), condition[0,[1]].transpose(1,2,0)))
         # plt.imshow(img[0].transpose(1,2,0), cmap='gray')
         # plt.show()
         # plt.imshow(condition[0,[0]].transpose(1,2,0), cmap='gray')
@@ -163,6 +188,10 @@ if __name__ == "__main__":
         # plt.imshow(condition[0,[1]].transpose(1,2,0), cmap='gray')
         # plt.show()
 
-        plt.imshow(vis, cmap='gray')
-        plt.show()
+        # plt.imshow(vis, cmap='gray')
+        # plt.show()
         #break
+
+
+
+
