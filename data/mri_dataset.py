@@ -139,6 +139,8 @@ class MRIDataset(Dataset):
 
 class CustomImageDataset(Dataset):
     import glob
+    import pandas as pd
+    import PIL.Image as Image
     images = glob.glob("/kaggle/input/echo-data/Extracted/*/*.png")
     series = list(zip(images))
     dataset = pd.DataFrame(series, columns=['image_path'])
