@@ -25,19 +25,10 @@ def create_dataset(dataset_opt, phase, stage2_file=None):
     '''create dataset'''
 
     # unified data loader
-    from data.mri_dataset import MRIDataset
+    from data.mri_dataset import CustomImageDataset
 
-    dataset = MRIDataset(dataroot=dataset_opt['dataroot'],
-                valid_mask=dataset_opt['valid_mask'],
-                phase=dataset_opt['phase'],
-                val_volume_idx=dataset_opt['val_volume_idx'],
-                val_slice_idx=dataset_opt['val_slice_idx'],
-                padding=dataset_opt['padding'],
-                in_channel=dataset_opt['in_channel'],
-                image_size=dataset_opt['image_size'] if 'image_size' in dataset_opt else None,
-                stage2_file=stage2_file
-                )
+    dataset = CustomImageDataset()
 
     logger = logging.getLogger('base')
-    logger.info('MRI dataset [{:s}] is created.'.format(dataset_opt['name']))
+    logger.info('custom dataset [{:s}] is created.'.format(dataset_opt['name']))
     return dataset
